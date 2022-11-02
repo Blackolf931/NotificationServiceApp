@@ -2,10 +2,13 @@
 {
     public static class Consts
     {
-        public const string directoryPath = @"\Notifications";
-        public const string templatePath = @"\Template\Template.json";
-        public const string emailNotification = @"SendNotifications\Email";
-        public const string pdfNotification = @"SendNotifications\Pdf";
-        public const string smsNotification = @"SendNotifications\Sms";
+        public static string notificationsPath = $@"{directoryPath}\\Notifications";
+        public static string templateNotificationPath = $@"{directoryPath}\\Template\Template.json";
+        public static string emailNotification = $@"{directoryPath}\\SendNotifications\Email";
+        public static string pdfNotification = $@"{directoryPath}\\SendNotifications\Pdf";
+        public static string smsNotification = $@"{directoryPath}\\SendNotifications\Sms";
+        public static string directoryPath = $"{Directory.GetCurrentDirectory()}";
+        public const string nameTemplate = "[name]";
+        public const string messageTemplate = "[message]";
     }
 }

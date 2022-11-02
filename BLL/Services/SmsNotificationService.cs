@@ -15,7 +15,7 @@ namespace BLL.Services
         {
             var notification = _generateNotification.GenerateNotifications(model);
 
-            await File.WriteAllTextAsync($"{Directory.GetCurrentDirectory()}\\{Consts.smsNotification}\\{model.Name}.json", notification.ToString());
+            await File.WriteAllTextAsync($"{Consts.smsNotification}\\{model.Name}.json", notification.ToString());
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace BLL.Services
 {
-    public class GenericService<TModel> : IGenericService<TModel>
+    public class GenericService<TModel> : IGenericService<TModel> where TModel : class
     {
         public virtual Task SendNotification(TModel model)
         {
