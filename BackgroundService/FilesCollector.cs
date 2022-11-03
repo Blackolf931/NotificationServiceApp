@@ -31,7 +31,7 @@ namespace BackgroundService
         {
             try
             {
-                var directory = new DirectoryInfo($"{Directory.GetCurrentDirectory()}\\{Consts.directoryPath}");
+                var directory = new DirectoryInfo($"{Consts.directoryPath}");
                 return directory.GetFiles("*.json");
             }
             catch (DirectoryNotFoundException ex)
@@ -42,7 +42,7 @@ namespace BackgroundService
             {
                 _logger.LogError(ex.Message);
             }
-            return new FileInfo[] {};
+            return Array.Empty<FileInfo>();
         }
 
         public async Task StartCollector()
