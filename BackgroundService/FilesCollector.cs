@@ -1,6 +1,5 @@
 ﻿using BLL.Interfaces;
 using BLL.Models;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Shared;
 using System.Text.Json;
@@ -9,22 +8,21 @@ namespace BackgroundService
 {
     public class FilesCollector : IFilesCollector
     {
-        private readonly IServiceProvider _provider;
         private readonly ISeparateNotification _separateNotification;
         private readonly IGenericService<EmailNotification> _emailNotificatioNService;
         private readonly IGenericService<PdfNotification> _pdfNotificationService;
         private readonly IGenericService<SMSNotification> _smsNotificationService;
         private readonly ILogger<FilesCollector> _logger;
 
-        public FilesCollector(IServiceProvider provider)
+        public FilesCollector(IGenericService<SMSNotification> smsNotificationService, ISeparateNotification separateNotification, 
+            IGenericService<EmailNotification> emailNotificatioNService, IGenericService<PdfNotification> pdfNotificationService,
+            ILogger<FilesCollector> logger)
         {
-            _provider = provider;
-            using var scope = _provider.CreateScope();
-            _separateNotification = scope.ServiceProvider.GetRequiredService<ISeparateNotification>();
-            _emailNotificatioNService = scope.ServiceProvider.GetRequiredService<IGenericService<EmailNotification>>();
-            _pdfNotificationService = scope.ServiceProvider.GetRequiredService<IGenericService<PdfNotification>>();
-            _smsNotificationService = scope.ServiceProvider.GetRequiredService<IGenericService<SMSNotification>>();
-            _logger = scope.ServiceProvider.GetRequiredService<ILogger<FilesCollector>>();
+            _separateNotification = separateNotification;
+            _emailNotificatioNService = emailNotificatioNService;
+            _pdfNotificationService = pdfNotificationService;
+            _smsNotificationService = smsNotificationService;
+            _logger = logger;
         }
 
         public async Task<FileInfo[]> GetFiles()
@@ -83,10 +81,6 @@ namespace BackgroundService
                     notifications.Add(_separateNotification.SeparateNotifications(fileInformation));
                 }
                 catch (FileNotFoundException ex)
-                {
-                    _logger?.LogError(ex.Message);
-                }
-                catch (NullReferenceException ex)
                 {
                     _logger?.LogError(ex.Message);
                 }
